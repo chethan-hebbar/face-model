@@ -13,15 +13,35 @@ function main(){
   var ambientLight = new THREE.ambientLight(0x404040);
   scene.add(ambientLight);
 
-  // loading the model 
-  var loader = new THREE.OBJLoader();
-  loader.addEventListener('load', function (event){
-    scene.add(event.content);
-});
+  // loading the model along with the materials 
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setBaseUrl( 'IronMan/' );
+  mtlLoader.setPath( 'IronMan/' );
+  var url = "IronMan.mtl";
+  mtlLoader.load( url, function( materials ) {
 
-loader.load('/IronMan/IronMan.obj');
-renderer.render(scene, camera);
+    materials.preload();
 
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials( materials );
+    objLoader.setPath( 'IronMan/' );
+    objLoader.load('IronMan.obj', function (object) {
+
+        object.position.y = - 95;
+        scene.add( object );
+        var loader = new THREE.OBJLoader();
+        loader.addEventListener('load', function (event){
+          scene.add(event.content);
+        });
+
+        renderer.render(scene, camera);
+    }, 
+    undefined, 
+    function(err){
+      console.error(err);
+    });
+
+  });
 }
 
 main();
