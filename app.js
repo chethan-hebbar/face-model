@@ -10,7 +10,7 @@ function main(){
 
   // creating the scene
   var scene = new THREE.Scene();
-  var ambientLight = new THREE.ambientLight(0x404040);
+  var ambientLight = new THREE.ambientLight(0xfffff);
   scene.add(ambientLight);
 
   // loading the model along with the materials 
