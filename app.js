@@ -1,9 +1,8 @@
-
 let leftEye, rightEye, scene, renderer, camera;
 
 init();
 function init(){
-  const modelPath = "https://d1a370nemizbjq.cloudfront.net/a7331c3f-0dc7-431c-88fa-5dfc951c92db.glb";
+  const modelPath = "model.glb";
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfde2af);
 
@@ -12,7 +11,7 @@ function init(){
   document.body.appendChild(renderer.domElement);
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-  camera.position.set(0, 4.6, 3);
+  camera.position.set(0, 0, 20);
 
   var loader = new THREE.GLTFLoader();
   loader.load(
@@ -23,8 +22,14 @@ function init(){
         if(child.isMesh){
           child.castShadow = true;
           child.recieveShadow = true;
-        }
+          console.log(child.morphTargetDictionary);
 
+          child.morphTargetInfluences[30] = 0.6;
+          child.morphTargetInfluences[31] = 0.6;
+          child.morphTargetInfluences[16] = 0.6;
+;
+        }
+        /*
         if(child.name === 'LeftEye' && child.isBone){
           child.rotateZ(Math.PI / 6);
           leftEye = child;
@@ -32,12 +37,10 @@ function init(){
 
         if(child.name === 'RightEye' && child.isBone){
           rightEye = child;
-        }
-
-        console.log(child);
+        }*/
       });
 
-      model.scale.set(8, 8, 8);
+      model.scale.set(7, 7, 7);
       scene.add(model);
     },
     undefined,
@@ -81,4 +84,4 @@ function moveParts(leftEye, rightEye){
     leftEye.rotateZ(Math.PI / 6);
   }
 }
-moveParts(leftEye, rightEye);
+//moveParts(leftEye, rightEye);
